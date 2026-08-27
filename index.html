@@ -1,77 +1,14 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080b0f" />
-    <title>RailSim — Francilien Driver</title>
-  </head>
-  <body>
-    <div id="app">
-      <canvas id="game" aria-label="Simulateur ferroviaire 3D"></canvas>
-
-      <div id="boot" class="boot">
-        <div class="boot__mark">RS</div>
-        <div>
-          <strong>RAILSIM</strong>
-          <span>Initialisation du Z 50000…</span>
-        </div>
-      </div>
-
-      <header class="topbar">
-        <div class="service-chip">
-          <span class="eyebrow">MISSION</span>
-          <strong>Francilien 137642</strong>
-          <span>Paris-Nord → Valmont</span>
-        </div>
-        <div class="topbar__right">
-          <div class="clock" id="clock">14:02:00</div>
-          <button id="pauseBtn" class="icon-btn" type="button">Pause</button>
-        </div>
-      </header>
-
-      <aside class="mission-panel">
-        <div class="mission-panel__head">
-          <span class="eyebrow">PROCHAINE DESSERTE</span>
-          <strong id="nextStation">Saint-Denis Centre</strong>
-        </div>
-        <div class="mission-panel__distance"><span id="distance">1 850</span> m</div>
-        <div class="route-progress"><div id="routeProgress"></div></div>
-        <div id="stationList" class="station-list"></div>
-      </aside>
-
-      <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-      <section class="cab-overlay" aria-label="Commandes conducteur">
-        <div class="cab-overlay__left">
-          <div class="status-row">
-            <span id="doorLamp" class="status-lamp"></span><span>PORTES</span>
-            <span id="tractionLamp" class="status-lamp"></span><span>TRACTION</span>
-            <span id="brakeLamp" class="status-lamp"></span><span>FREIN</span>
-            <span id="vacmaLamp" class="status-lamp is-on"></span><span>VACMA</span>
-          </div>
-          <div class="key-help">↑ traction · ↓ frein · N neutre · D portes · E urgence · Espace vigilance</div>
-        </div>
-        <div class="cab-overlay__right">
-          <button id="doorsBtn" class="cab-btn" type="button">Portes</button>
-          <button id="vigilanceBtn" class="cab-btn cab-btn--accent" type="button">Vigilance</button>
-          <button id="emergencyBtn" class="cab-btn cab-btn--danger" type="button">Urgence</button>
-        </div>
-      </section>
-
-      <section id="tutorial" class="tutorial">
-        <div class="tutorial__index" id="tutorialIndex">01 / 05</div>
-        <div class="tutorial__content">
-          <span class="eyebrow">FORMATION CONDUCTEUR</span>
-          <h1 id="tutorialTitle">Prise de service</h1>
-          <p id="tutorialText">Bienvenue à bord. La conduite se fait depuis la cabine : traction, freinage, portes et vigilance sont à respecter comme sur un service réel.</p>
-          <div class="tutorial__actions">
-            <button id="skipTutorial" class="ghost-btn" type="button">Passer</button>
-            <button id="nextTutorial" class="primary-btn" type="button">Suivant</button>
-          </div>
-        </div>
-      </section>
-    </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#06080b" />
+  <meta name="description" content="RailSim — simulateur ferroviaire 3D jouable dans le navigateur." />
+  <title>RailSim — Simulateur ferroviaire 3D</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>
