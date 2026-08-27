@@ -20,7 +20,6 @@ export class TrainSimulation{
     this.elapsed+=dt;this.vacma-=dt;
     const limit=this.world.speedLimit(this.u);const gradient=this.world.gradient(this.u);const wet=this.mission.weather==='rain';
     if(this.vacma<=0){this.failed=true;this.emergency=true;this.master=-7;this.message='Mission terminée : VACMA non acquittée.';return;}
-    // Simple force model inspired by EMU behavior: traction fades with speed, service brake is progressive.
     const kmh=this.speed;const ms=kmh/3.6;const tractionNotch=Math.max(0,this.master);const brakeNotch=Math.max(0,-this.master);
     const adhesion=wet?.82:1;const tractionAccel=tractionNotch?(0.19*tractionNotch)*(1-Math.min(.72,kmh/190))*adhesion:0;
     const serviceBrake=brakeNotch?(0.105+brakeNotch*.105)*(wet?.86:1):0;
@@ -34,11 +33,11 @@ export class TrainSimulation{
     const sig=this.world.upcomingSignal(this.u);if(sig&&sig!==this.lastSignal){const dist=(sig.u-this.u)*this.world.length;if(dist<45){if(sig.state==='red'){this.failed=true;this.message='Signal fermé franchi — mission échouée.';this.master=-7;this.emergency=true;return;}if(sig.state==='yellow')this.message='Avertissement : prochain signal à vitesse réduite.';this.lastSignal=sig;}}
     const st=this.currentStation();if(st){const dist=(st.u-this.u)*this.world.length;if(dist<-65&&!this.stationServed.has(this.nextStation)){this.penalize(160,`Arrêt manqué : ${st.name}`);this.nextStation++;}
       if(Math.abs(dist)<45&&this.speed<.45&&this.doors&&!this.stationServed.has(this.nextStation)){
-        const error=Math.abs(dist);this.stopAccuracy=error;this.stationServed.add(this.nextStation);const bonus=Math.round(Math.max(20,150-error*3));this.score+=bonus;this.message=`${st.name} · arrêt à ${error.toFixed(1)} m · +${bonus} pts`;this.dwell=st.dwell;const scheduled=st.scheduled;this.delay=Math.max(-20,this.elapsed-scheduled);this.nextStation++;
+        const servedIndex=this.nextStation;const error=Math.abs(dist);this.stopAccuracy=error;this.stationServed.add(servedIndex);const bonus=Math.round(Math.max(20,150-error*3));this.score+=bonus;this.message=`${st.name} · arrêt à ${error.toFixed(1)} m · +${bonus} pts`;this.dwell=st.dwell;this.delay=Math.max(-20,this.elapsed-st.scheduled);this.nextStation++;
+        if(servedIndex===this.mission.stations.length-1){this.finished=true;this.score+=Math.max(0,250-Math.max(0,this.delay)*2);this.message='Terminus atteint — mission terminée.';return;}
       }
     }
     if(this.dwell>0){this.dwell=Math.max(0,this.dwell-dt);if(this.dwell===0)this.message='Service voyageurs terminé : fermez les portes.';}
-    if(this.u>.985){const final=this.mission.stations.at(-1);if(this.speed<.5&&Math.abs((final.u-this.u)*this.world.length)<100){this.finished=true;this.score+=Math.max(0,250-Math.max(0,this.delay)*2);this.message='Mission terminée.';}}
   }
   state(){const st=this.currentStation();return{u:this.u,speed:this.speed,master:this.master,doors:this.doors,vacma:this.vacma,delay:this.delay,pressure:this.brakePressure,score:Math.round(this.score),limit:this.world.speedLimit(this.u),next:st?.name||'Terminus',distance:this.distanceToNextStation(),elapsed:this.elapsed,dwell:this.dwell,failed:this.failed,finished:this.finished,message:this.message,emergency:this.emergency};}
 }
