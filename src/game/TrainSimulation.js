@@ -39,5 +39,5 @@ export class TrainSimulation{
     }
     if(this.dwell>0){this.dwell=Math.max(0,this.dwell-dt);if(this.dwell===0)this.message='Service voyageurs terminé : fermez les portes.';}
   }
-  state(){const st=this.currentStation();return{u:this.u,speed:this.speed,master:this.master,doors:this.doors,vacma:this.vacma,delay:this.delay,pressure:this.brakePressure,score:Math.round(this.score),limit:this.world.speedLimit(this.u),next:st?.name||'Terminus',distance:this.distanceToNextStation(),elapsed:this.elapsed,dwell:this.dwell,failed:this.failed,finished:this.finished,message:this.message,emergency:this.emergency};}
+  state(){const st=this.currentStation();return{u:this.u,speed:this.speed,master:this.master,doors:this.doors,vacma:this.vacma,delay:this.delay,pressure:this.brakePressure,score:Math.round(this.score),limit:this.world.speedLimit(this.u),next:st?.name||'Terminus',nextStationIndex:this.nextStation,distance:this.distanceToNextStation(),elapsed:this.elapsed,dwell:this.dwell,failed:this.failed,finished:this.finished,message:this.message,emergency:this.emergency};}
 }
